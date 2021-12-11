@@ -20,10 +20,10 @@ list_region = []
 list_subregion = []
 
 f = open(
-    "https://github.com/adamzainuri01/StreamlitProduksiMinyakNegara/blob/main/kode_negara_lengkap.json")
+    "kode_negara_lengkap.json")
 file_json = json.load(f)
 df_csv = pd.read_csv(
-    "https://github.com/adamzainuri01/StreamlitProduksiMinyakNegara/blob/main/produksi_minyak_mentah.csv")
+    "produksi_minyak_mentah.csv")
 df_json = pd.DataFrame.from_dict(file_json, orient='columns')
 
 # Membuat list kode negara dari df_csv
