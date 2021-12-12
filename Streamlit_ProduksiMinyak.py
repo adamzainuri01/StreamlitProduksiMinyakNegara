@@ -82,7 +82,7 @@ for i in range(len(list(df_csv['kode_negara']))):
 # Membuat grafik garis dengan x dari list_tahun dan y dari list_produksi
 fig = px.line(x=list_tahun, y=list_produksi, labels={
               "x": "tahun", "y": "produksi"})
-fig.update_traces(line_color='#e1ddbf')
+fig.update_traces(line_color='#9cdff7')
 fig.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                   yaxis_title=None, xaxis_title=None)
 
@@ -118,7 +118,7 @@ df2 = df2[:B1]
 
 # Membuat grafik batang jumlah produksi minyak terbesar pada tahun T
 fig2 = px.bar(df2, x='negara', y='produksi', template='seaborn')
-fig2.update_traces(marker_color='#f7ed9c')
+fig2.update_traces(marker_color='#9cdff7')
 fig2.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                    yaxis_title=None, xaxis_title=None)
 
@@ -160,7 +160,7 @@ df3 = df3[:B2]
 
 # Membuat grafik batang jumlah produksi minyak kumulatif terbesar
 fig3 = px.bar(df3, x='negara', y='produksi_kumulatif', template='seaborn')
-fig3.update_traces(marker_color='#e1ddbf')
+fig3.update_traces(marker_color='#9cdff7')
 fig3.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                    yaxis_title=None, xaxis_title=None)
 
