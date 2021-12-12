@@ -5,11 +5,12 @@ Created on Dec 8, 2021
 '''
 
 import json
-import math
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 list_kodenegarahuruf = []
@@ -19,11 +20,9 @@ list_kodenegaraangka = []
 list_region = []
 list_subregion = []
 
-f = open(
-    "kode_negara_lengkap.json")
+f = open("kode_negara_lengkap.json")
 file_json = json.load(f)
-df_csv = pd.read_csv(
-    "produksi_minyak_mentah.csv")
+df_csv = pd.read_csv("produksi_minyak_mentah.csv")
 df_json = pd.DataFrame.from_dict(file_json, orient='columns')
 
 # Membuat list kode negara dari df_csv
@@ -56,6 +55,8 @@ for i in range(len(list_kodenegarahuruf)):
 df_negara = pd.DataFrame(list(zip(list_nama, list_kodenegarahuruf, list_kodenegaraangka, list_region, list_subregion)), columns=[
                          'Negara', 'alpha-3', 'Kode_Negara', 'Region', 'Sub-Region'])
 
+st.set_page_config(page_title='Produksi Minyak Negara',  layout='wide')
+
 # Option pada streamlit untuk memilih negara dari daftar negara
 st.header("Grafik Jumlah Produksi Minyak Terhadap Waktu dari Suatu Negara")
 N = st.selectbox("Daftar Negara", list_nama)
@@ -79,14 +80,13 @@ for i in range(len(list(df_csv['kode_negara']))):
         list_tahun.append(list(df_csv['tahun'])[i])
 
 # Membuat grafik garis dengan x dari list_tahun dan y dari list_produksi
-plt.clf()
-fig, ax = plt.subplots()
-ax.plot(list_tahun, list_produksi)
-ax.set_xlabel("Tahun")
-ax.set_ylabel("Jumlah Produksi")
+fig = px.line(x=list_tahun, y=list_produksi, labels={
+              "x": "tahun", "y": "produksi"})
+fig.update_layout(margin=dict(l=0, r=10, b=0, t=30),
+                  yaxis_title=None, xaxis_title=None)
 
 # Menampilkan grafik pada streamlit
-st.pyplot(fig)
+st.plotly_chart(fig, use_container_width=True)
 
 # Option pada streamlit untuk memilih tahun produksi minyak
 st.header("Grafik Jumlah Produksi Minyak Terbesar pada Suatu Tahun")
@@ -111,17 +111,18 @@ df2['negara'] = list_nama_df2
 
 # Slider pada streamlit untuk memilih banyak negara yang akan tampil pada
 # grafik
-B1 = st.number_input("Banyak Negara", min_value=1, max_value=10)
+B1 = st.number_input("Banyak Negara", min_value=1, max_value=len(df2))
+
+df2 = df2[:B1]
 
 # Membuat grafik batang jumlah produksi minyak terbesar pada tahun T
-plt.clf()
-fig2, ax2 = plt.subplots()
-ax2.bar(list(df2['negara'])[:B1], list(df2['produksi'])[:B1])
-ax2.set_xlabel("Negara")
-ax2.set_ylabel("Jumlah Produksi")
+fig2 = px.bar(df2, x='negara', y='produksi', template='seaborn')
+
+fig2.update_layout(margin=dict(l=0, r=10, b=0, t=30),
+                   yaxis_title=None, xaxis_title=None)
 
 # Menampilkan grafik pada streamlit
-st.pyplot(fig2)
+st.plotly_chart(fig2, use_container_width=True)
 
 # Membuat list baru untuk menampung data produksi minyak kumulatif tiap negara
 list_sum = []
@@ -152,17 +153,18 @@ df3['negara'] = list_nama_df3
 # grafik
 st.header("Grafik Jumlah Produksi Kumulatif Minyak Terbesar")
 B2 = st.number_input("Banyak Negara", min_value=1,
-                     max_value=10, key="kumulatif")
+                     max_value=len(df3), key="kumulatif")
+
+df3 = df3[:B2]
 
 # Membuat grafik batang jumlah produksi minyak kumulatif terbesar
-plt.clf()
-fig3, ax3 = plt.subplots()
-ax3.bar(list(df3['negara'])[:B2], list(df3['produksi_kumulatif'])[:B2])
-ax3.set_xlabel("Negara")
-ax3.set_ylabel("Jumlah Produksi")
+fig3 = px.bar(df3, x='negara', y='produksi_kumulatif', template='seaborn')
+
+fig3.update_layout(margin=dict(l=0, r=10, b=0, t=30),
+                   yaxis_title=None, xaxis_title=None)
 
 # Menampilkan grafik pada streamlit
-st.pyplot(fig3)
+st.plotly_chart(fig3, use_container_width=True)
 
 st.header("Informasi Produksi Minyak Negara")
 T2 = int(st.selectbox("Tahun", list_tahun, key="Tahun"))
@@ -203,42 +205,43 @@ df5['kode_negara_angka'] = list(df_negara['Kode_Negara'])
 df5 = df5[['nama', 'kode_negara_huruf', 'kode_negara_angka', 'region',
            'sub-region', 'produksi_kumulatif']].sort_values(by=['produksi_kumulatif'], ascending=False)
 
-col1, col2 = st.columns(2)
-col1.metric("Jumlah Produksi Minyak Terbesar pada Tahun {}".format(
-    T2), df4.iloc[0]['produksi_tahun-{}'.format(T2)])
-col2.metric("Jumlah Produksi Minyak Kumulatif Terbesar",
-            df5.iloc[0]['produksi_kumulatif'])
-
-col3, col4 = st.columns(2)
-col3.text("Negara: {}\nKode Negara: {} {}\nRegion: {}\nSub-Region: {}".format(
-    df4.iloc[0]['nama'], df4.iloc[0]['kode_negara_huruf'], df4.iloc[0]['kode_negara_angka'], df4.iloc[0]['region'], df4.iloc[0]['sub-region']))
-col4.text("Negara: {}\nKode Negara: {} {}\nRegion: {}\nSub-Region: {}".format(
-    df5.iloc[0]['nama'], df5.iloc[0]['kode_negara_huruf'], df5.iloc[0]['kode_negara_angka'], df5.iloc[0]['region'], df5.iloc[0]['sub-region']))
-
 df_nozero = df4[df4['produksi_tahun-{}'.format(T2)] != 0].sort_values(
     by=['produksi_tahun-{}'.format(T2)], ascending=True)
 
 df_minproduksikumulatif = df5[df5['produksi_kumulatif'.format(T2)] != 0].sort_values(
     by=['produksi_kumulatif'], ascending=True)
 
-col5, col6 = st.columns(2)
-col5.metric("Jumlah Produksi Minyak Terkecil pada Tahun {}".format(
-    T2), df_nozero.iloc[0]['produksi_tahun-{}'.format(T2)])
-col6.metric("Jumlah Produksi Minyak Kumulatif Terkecil",
-            df_minproduksikumulatif.iloc[0]['produksi_kumulatif'])
-
-col7, col8 = st.columns(2)
-col7.text("Negara: {}\nKode Negara: {} {}\nRegion: {}\nSub-Region: {}".format(
-    df_nozero.iloc[0]['nama'], df_nozero.iloc[0]['kode_negara_huruf'], df_nozero.iloc[0]['kode_negara_angka'], df_nozero.iloc[0]['region'], df_nozero.iloc[0]['sub-region']))
-col8.text("Negara: {}\nKode Negara: {} {}\nRegion: {}\nSub-Region: {}".format(df_minproduksikumulatif.iloc[0]['nama'], df_minproduksikumulatif.iloc[0][
-          'kode_negara_huruf'], df_minproduksikumulatif.iloc[0]['kode_negara_angka'], df_minproduksikumulatif.iloc[0]['region'], df_minproduksikumulatif.iloc[0]['sub-region']))
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    st.metric("Jumlah Produksi Minyak Terbesar Tahun {}".format(
+        T2), df4.iloc[0]['produksi_tahun-{}'.format(T2)])
+    st.caption("Negara: {}  \nKode Negara: {} {}  \nRegion: {}  \nSub-Region: {}".format(
+        df4.iloc[0]['nama'], df4.iloc[0]['kode_negara_huruf'], df4.iloc[0]['kode_negara_angka'], df4.iloc[0]['region'], df4.iloc[0]['sub-region']))
+with col2:
+    st.metric("Jumlah Produksi Minyak Kumulatif Terbesar",
+              round(df5.iloc[0]['produksi_kumulatif'], 3))
+    st.caption("Negara: {}  \nKode Negara: {} {}  \nRegion: {}  \nSub-Region: {}".format(
+        df5.iloc[0]['nama'], df5.iloc[0]['kode_negara_huruf'], df5.iloc[0]['kode_negara_angka'], df5.iloc[0]['region'], df5.iloc[0]['sub-region']))
+with col3:
+    st.metric("Jumlah Produksi Minyak Terkecil Tahun {}".format(
+        T2), df_nozero.iloc[0]['produksi_tahun-{}'.format(T2)])
+    st.caption("Negara: {}  \nKode Negara: {} {}  \nRegion: {}  \nSub-Region: {}".format(
+        df_nozero.iloc[0]['nama'], df_nozero.iloc[0]['kode_negara_huruf'], df_nozero.iloc[0]['kode_negara_angka'], df_nozero.iloc[0]['region'], df_nozero.iloc[0]['sub-region']))
+with col4:
+    st.metric("Jumlah Produksi Minyak Kumulatif Terkecil",
+              df_minproduksikumulatif.iloc[0]['produksi_kumulatif'])
+    st.caption("Negara: {}  \nKode Negara: {} {}  \nRegion: {}  \nSub-Region: {}".format(df_minproduksikumulatif.iloc[0]['nama'], df_minproduksikumulatif.iloc[0][
+        'kode_negara_huruf'], df_minproduksikumulatif.iloc[0]['kode_negara_angka'], df_minproduksikumulatif.iloc[0]['region'], df_minproduksikumulatif.iloc[0]['sub-region']))
 
 df_produksinol = df4[df4['produksi_tahun-{}'.format(T2)] == 0].reset_index()
 
 del df_produksinol['produksi_tahun-{}'.format(T2)]
 del df_produksinol['index']
 
-st.dataframe(df_produksinol)
+table1 = go.Figure(data=[go.Table(header=dict(values=list(df_produksinol.columns), fill_color='#0e1117', align='left'), cells=dict(
+    values=df_produksinol.transpose().values.tolist(), fill_color='#0e1117', align='left'))])
+table1.update_layout(title_text="Negara yang Tidak Memproduksi Minyak pada Tahun {}".format(T2),
+                     title_x=0, margin=dict(l=0, r=10, b=10, t=30), height=1000)
 
 df_produksikumulatifnol = df5[df5['produksi_kumulatif'.format(
     T)] == 0].reset_index()
@@ -246,4 +249,17 @@ df_produksikumulatifnol = df5[df5['produksi_kumulatif'.format(
 del df_produksikumulatifnol['produksi_kumulatif'.format(T)]
 del df_produksikumulatifnol['index']
 
-st.dataframe(df_produksikumulatifnol)
+table2 = go.Figure(data=[go.Table(header=dict(values=list(df_produksikumulatifnol.columns), fill_color='#0e1117', align='left'), cells=dict(
+    values=df_produksikumulatifnol.transpose().values.tolist(), fill_color='#0e1117', align='left'))])
+table2.update_layout(title_text="Negara yang Tidak Memproduksi Minyak pada Keseluruhan Tahun",
+                     title_x=0, margin=dict(l=0, r=10, b=10, t=30), height=1000)
+
+tb1, tb2 = st.columns(2)
+
+tb1.plotly_chart(table1, use_container_width=True)
+tb2.plotly_chart(table2, use_container_width=True)
+
+st.markdown(""" <style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style> """, unsafe_allow_html=True)
