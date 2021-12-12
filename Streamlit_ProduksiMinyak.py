@@ -64,7 +64,7 @@ t1, t2 = st.columns((0.07, 1))
 t1.image('images/logo_itb_1024.png', width=120)
 title = '<p style="font-family: sans-serif; font-size: 40px; text-align: center;"><b>Analisis Data Produksi Minyak Mentah dari Berbagai Negara</b></p>'
 t2.markdown(title, unsafe_allow_html=True)
-t2.markdown( **by:** Adam Putra Pratama Zainuri **| nim:** 12220143 **| email:** 12220143@mahasiswa.itb.ac.id)
+t2.markdown(" **by:** Adam Putra Pratama Zainuri **| nim:** 12220143 **| email:** 12220143@mahasiswa.itb.ac.id")
 
 # Option pada streamlit untuk memilih negara dari daftar negara
 title1 = '<p style="color:#fe8062; font-size: 30px;">Grafik Jumlah Produksi Minyak Terhadap Waktu dari Suatu Negara</p>'
