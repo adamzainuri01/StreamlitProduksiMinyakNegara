@@ -62,7 +62,7 @@ st.set_page_config(page_title='Produksi Minyak Negara',
 # Header streamlit
 t1, t2 = st.columns((0.07, 1))
 t1.image('images/logo_itb_1024.png', width=120)
-title = '<p style="font-family: sans-serif; font-size: 40px;"><b>Analisis Data Produksi Minyak Mentah dari Berbagai Negara</b></p>'
+title = '<p style="font-family: sans-serif; font-size: 40px; text-align: center;"><b>Analisis Data Produksi Minyak Mentah dari Berbagai Negara</b></p>'
 t2.markdown(title, unsafe_allow_html=True)
 
 # Option pada streamlit untuk memilih negara dari daftar negara
