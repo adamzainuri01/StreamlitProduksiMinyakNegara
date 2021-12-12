@@ -18,3 +18,9 @@ pip install pandas
 ```
 streamlit run https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/Streamlit_ProduksiMinyak.py
 ```
+
+## Required Module
+- streamlit
+- pandas
+- numpy
+- plotly
