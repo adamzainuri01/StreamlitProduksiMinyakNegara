@@ -20,11 +20,11 @@ list_kodenegaraangka = []
 list_region = []
 list_subregion = []
 
-url = "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/kode_negara_lengkap.json?token=AW4B42CJJ4KHSMMSBCXJRKDBWY4O6"
+url = "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/kode_negara_lengkap.json"
 response = urllib.request.urlopen(url)
 file_json = json.loads(response.read())
 df_csv = pd.read_csv(
-    "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/produksi_minyak_mentah.csv?token=AW4B42G4IRTMCFEVZMX2ZODBWY4PC")
+    "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/produksi_minyak_mentah.csv")
 df_json = pd.DataFrame.from_dict(file_json, orient='columns')
 
 # Membuat list kode negara dari df_csv
