@@ -5,4 +5,4 @@ A simple [streamlit](https://streamlit.io) app to view information about oil pro
 
 
 ## Live App
-[app](https://share.streamlit.io/adamzainuri01/streamlitproduksiminyaknegara/main/Streamlit_ProduksiMinyak.py)
+To view the application, simply go to this website [here](https://share.streamlit.io/adamzainuri01/streamlitproduksiminyaknegara/main/Streamlit_ProduksiMinyak.py).
