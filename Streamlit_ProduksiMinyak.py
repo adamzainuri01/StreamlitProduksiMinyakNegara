@@ -112,7 +112,7 @@ df2['negara'] = list_nama_df2
 
 # Slider pada streamlit untuk memilih banyak negara yang akan tampil pada
 # grafik
-B1 = st.number_input("Banyak Negara", min_value=1, max_value=len(df2))
+B1 = int(st.number_input("Banyak Negara", min_value=1, max_value=len(df2)))
 
 df2 = df2[:B1]
 
@@ -153,8 +153,8 @@ df3['negara'] = list_nama_df3
 # Slider pada streamlit untuk memilih banyak negara yang akan tampil pada
 # grafik
 st.header("Grafik Jumlah Produksi Kumulatif Minyak Terbesar")
-B2 = st.number_input("Banyak Negara", min_value=1,
-                     max_value=len(df3), key="kumulatif")
+B2 = int(st.number_input("Banyak Negara", min_value=1,
+                     max_value=len(df3), key="kumulatif"))
 
 df3 = df3[:B2]
 
