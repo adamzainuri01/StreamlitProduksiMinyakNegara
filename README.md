@@ -16,5 +16,5 @@ pip install pandas
 ```
 ### Running the App
 ```
-streamlit run 
+streamlit run https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/Streamlit_ProduksiMinyak.py
 ```
