@@ -118,7 +118,7 @@ df2 = df2[:B1]
 
 # Membuat grafik batang jumlah produksi minyak terbesar pada tahun T
 fig2 = px.bar(df2, x='negara', y='produksi', template='seaborn')
-
+fig2.update_traces(marker_color='#e1ddbf')
 fig2.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                    yaxis_title=None, xaxis_title=None)
 
@@ -160,7 +160,7 @@ df3 = df3[:B2]
 
 # Membuat grafik batang jumlah produksi minyak kumulatif terbesar
 fig3 = px.bar(df3, x='negara', y='produksi_kumulatif', template='seaborn')
-
+fig3.update_traces(marker_color='#e1ddbf')
 fig3.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                    yaxis_title=None, xaxis_title=None)
 
