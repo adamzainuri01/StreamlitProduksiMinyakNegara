@@ -5,6 +5,7 @@ Created on Dec 8, 2021
 '''
 
 import json
+import urllib
 
 import numpy as np
 import pandas as pd
@@ -19,10 +20,11 @@ list_kodenegaraangka = []
 list_region = []
 list_subregion = []
 
-f = open("kode_negara_lengkap.json")
-file_json = json.load(f)
+url = "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/kode_negara_lengkap.json?token=AW4B42CJJ4KHSMMSBCXJRKDBWY4O6"
+response = urllib.request.urlopen(url)
+file_json = json.loads(response.read())
 df_csv = pd.read_csv(
-    "produksi_minyak_mentah.csv")
+    "https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/produksi_minyak_mentah.csv?token=AW4B42G4IRTMCFEVZMX2ZODBWY4PC")
 df_json = pd.DataFrame.from_dict(file_json, orient='columns')
 
 # Membuat list kode negara dari df_csv
@@ -61,7 +63,7 @@ st.set_page_config(page_title='Produksi Minyak Negara',
 
 # Header streamlit
 t1, t2 = st.columns((0.07, 1))
-t1.image('images/logo_itb_1024.png', width=120)
+t1.image('https://raw.githubusercontent.com/adamzainuri01/StreamlitProduksiMinyakNegara/main/images/logo_itb_1024.png', width=120)
 title = '<p style="font-family: sans-serif; font-size: 40px; text-align: center;"><b>Analisis Data Produksi Minyak Mentah dari Berbagai Negara</b></p>'
 t2.markdown(title, unsafe_allow_html=True)
 
