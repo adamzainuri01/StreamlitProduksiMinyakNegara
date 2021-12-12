@@ -81,8 +81,7 @@ for i in range(len(list(df_csv['kode_negara']))):
 
 # Membuat grafik garis dengan x dari list_tahun dan y dari list_produksi
 fig = px.line(x=list_tahun, y=list_produksi, labels={
-              "x": "tahun", "y": "produksi"})
-fig.update_traces(marker_color='#b6f786')
+              "x": "tahun", "y": "produksi"}, color="red")
 fig.update_layout(margin=dict(l=0, r=10, b=0, t=30),
                   yaxis_title=None, xaxis_title=None)
 
