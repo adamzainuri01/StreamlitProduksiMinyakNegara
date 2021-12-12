@@ -251,7 +251,7 @@ del df_produksikumulatifnol['produksi_kumulatif'.format(T)]
 del df_produksikumulatifnol['index']
 
 table2 = go.Figure(data=[go.Table(header=dict(values=list(df_produksikumulatifnol.columns), fill_color='#4c837a', align='left'), cells=dict(
-    values=df_produksikumulatifnol.transpose().values.tolist(), fill_color='##7fada6', align='left'))])
+    values=df_produksikumulatifnol.transpose().values.tolist(), fill_color='#7fada6', align='left'))])
 table2.update_layout(title_text="Negara yang Tidak Memproduksi Minyak pada Keseluruhan Tahun",
                      title_x=0, margin=dict(l=0, r=10, b=10, t=30), height=1000)
 
